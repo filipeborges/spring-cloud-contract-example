@@ -1,5 +1,8 @@
 package br.com.filipeborges.contract.springcloudcontract.controller;
 
+import br.com.filipeborges.contract.springcloudcontract.dto.RequestBodyDto;
+import br.com.filipeborges.contract.springcloudcontract.dto.ResponseCreatedDto;
+import br.com.filipeborges.contract.springcloudcontract.service.StubService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -7,43 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ServiceController {
 
+    private StubService stubService;
+
+    public ServiceController(StubService stubService) {
+        this.stubService = stubService;
+    }
+
     @PostMapping("/stub")
-    public ResponseCreatedDto create(@RequestBody RequestCreate requestCreate) {
-        ResponseCreatedDto response = new ResponseCreatedDto();
-        response.setStatus("CREATED");
-        return response;
+    public ResponseCreatedDto create(@RequestBody RequestBodyDto requestBody) {
+        return stubService.create(requestBody);
     }
 
-    private static class RequestCreate {
-        private String p1;
-        private String p2;
-
-        public String getP1() {
-            return p1;
-        }
-
-        public void setP1(String p1) {
-            this.p1 = p1;
-        }
-
-        public String getP2() {
-            return p2;
-        }
-
-        public void setP2(String p2) {
-            this.p2 = p2;
-        }
-    }
-
-    private static class ResponseCreatedDto {
-        private String status;
-
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-    }
 }
